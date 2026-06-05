@@ -26,8 +26,8 @@ public class ArtistDao {
 
         try (
                 Connection connection = dataManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)
         ) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
 
                 statement.setString(1, "%" + searchTerm + "%");
 
@@ -41,8 +41,6 @@ public class ArtistDao {
 
                     artists.add(new Artist(artistId, name, genre, formedYear));
                 }
-            }
-
         } catch (SQLException e) {
             System.err.println("Error searching for artists: " + e.getMessage());
             e.printStackTrace();
