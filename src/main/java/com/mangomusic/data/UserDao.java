@@ -31,7 +31,7 @@ public class UserDao {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
 
                 statement.setString(1, "%" + username + "%");
-                statement.setString(1, "%" + username + "%");
+                statement.setString(2, "%" + username + "%");
 
                 try (ResultSet results = statement.executeQuery()) {
                     while (results.next()) {
@@ -46,7 +46,6 @@ public class UserDao {
                     }
                 }
             }
-
         } catch (SQLException e) {
             System.err.println("Error searching for users: " + e.getMessage());
             e.printStackTrace();
