@@ -28,19 +28,18 @@ public class ArtistDao {
                 Connection connection = dataManager.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)
         ) {
+            statement.setString(1, "%" + searchTerm + "%");
 
-                statement.setString(1, "%" + searchTerm + "%");
+            ResultSet results = statement.executeQuery();
 
-                ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                int artistId = results.getInt("artist_id");
+                String name = results.getString("name");
+                String genre = results.getString("primary_genre");
+                Integer formedYear = results.getObject("formed_year", Integer.class);
 
-                while (results.next()) {
-                    int artistId = results.getInt("artist_id");
-                    String name = results.getString("name");
-                    String genre = results.getString("primary_genre");
-                    Integer formedYear = results.getObject("formed_year", Integer.class);
-
-                    artists.add(new Artist(artistId, name, genre, formedYear));
-                }
+                artists.add(new Artist(artistId, name, genre, formedYear));
+            }
         } catch (SQLException e) {
             System.err.println("Error searching for artists: " + e.getMessage());
             e.printStackTrace();
